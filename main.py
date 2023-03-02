@@ -21,6 +21,7 @@ def commands():
         print("Wait for a bit")
         query = r.recognize_google(audio, language='en-US')
         print(f'You just said: {query}\n')
+        speak(query)
     except Exception as e:
         print(e)
         speak('Please repeate that')
