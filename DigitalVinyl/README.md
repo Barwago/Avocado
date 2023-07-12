@@ -12,6 +12,7 @@ Digital Vinyl is a project that combines the nostalgia of vinyl records with the
   - Arduino board with RFID-RC522 module (Uno, Mega, etc.)
   - Arduino IDE
   - MFRC522 library (install via Arduino Library Manager)
+  - Jumper wiers (Male to Female)
   - serial library (`pip install serial`)
   - spotipy library (`pip install spotipy`)
   - webbrowser library (`pip install webbrowser`)
@@ -19,6 +20,7 @@ Digital Vinyl is a project that combines the nostalgia of vinyl records with the
 - Raspberry Pi Edition:
   - Raspberry Pi board
   - Python 3
+  - Jumper wiers (Female to Female)
   - pi-rc522 library (`pip install pi-rc522`)
   - spotipy library (`pip install spotipy`)
 
@@ -27,6 +29,7 @@ Digital Vinyl is a project that combines the nostalgia of vinyl records with the
 ### Arduino Edition
 
 1. Connect the RFID-RC522 module to your Arduino board using the provided wiring diagram. Double-check the connections to ensure they are correct.
+
 +---------------------+      +----------------------+
 |       Arduino       |      |     RFID-RC522       |
 |                     |      |                      |
@@ -58,6 +61,7 @@ Digital Vinyl is a project that combines the nostalgia of vinyl records with the
 ### Raspberry Pi Edition
 
 1. Connect the RFID-RC522 module to your Raspberry Pi and get ready to embark on a sonic adventure.
+
 +---------------------+      +----------------------+
 |     Raspberry Pi    |      |     RFID-RC522       |
 |                     |      |                      |
