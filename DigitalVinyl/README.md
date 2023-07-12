@@ -27,6 +27,17 @@ Digital Vinyl is a project that combines the nostalgia of vinyl records with the
 ### Arduino Edition
 
 1. Connect the RFID-RC522 module to your Arduino board using the provided wiring diagram. Double-check the connections to ensure they are correct.
++---------------------+      +----------------------+
+|       Arduino       |      |     RFID-RC522       |
+|                     |      |                      |
+|        3.3V    ------+-----> 3.3V                 |
+|        GND     ------+-----> GND                  |
+|        9       ------+-----> RST                  |
+|        10      ------+-----> SDA (SS)             |
+|        11      ------+-----> MOSI                 |
+|        12      ------+-----> MISO                 |
+|        13      ------+-----> SCK                  |
++---------------------+      +----------------------+
 
 2. Install the necessary libraries in your Arduino IDE. The required library for this project is the MFRC522 library. You can install it via the Arduino Library Manager.
 
@@ -47,14 +58,25 @@ Digital Vinyl is a project that combines the nostalgia of vinyl records with the
 ### Raspberry Pi Edition
 
 1. Connect the RFID-RC522 module to your Raspberry Pi and get ready to embark on a sonic adventure.
++---------------------+      +----------------------+
+|     Raspberry Pi    |      |     RFID-RC522       |
+|                     |      |                      |
+|         3.3V   ------+-----> 3.3V                 |
+|         GND    ------+-----> GND                  |
+|         19      ------+-----> MOSI                 |
+|         21      ------+-----> MISO                 |
+|         23      ------+-----> SCLK                 |
+|         24      ------+-----> SDA (SS)             |
+|         22      ------+-----> RST                 |
++---------------------+      +----------------------+
 
 2. Install the necessary dependencies: Python 3, pip, and the enchanting libraries (`pi-rc522` and `spotipy`).
 
-3. Open the `rfid_spotify.py` file and prepare to customize the enchanting `uid_playlist_mapping` dictionary. Associate your magical RFID card UIDs with the captivating Spotify playlist URIs that set your soul on fire.
+3. Open the `DigitalVinyl_Raspberrypi.py` file and prepare to customize the enchanting `uid_playlist_mapping` dictionary. Associate your magical RFID card UIDs with the captivating Spotify playlist URIs that set your soul on fire.
 
-4. Save the file and unleash the power of the Python script by making it executable (`chmod +x rfid_spotify.py`).
+4. Save the file and unleash the power of the Python script by making it executable (`chmod +x DigitalVinyl_Raspberrypi.py.py`).
 
-5. Now, it's time to let the music take over! Run the Python script (`./rfid_spotify.py`) and experience the wonders of Digital Vinyl.
+5. Now, it's time to let the music take over! Run the Python script (`./DigitalVinyl_Raspberrypi.py.py`) and experience the wonders of Digital Vinyl.
 
 ## Let the Music Play!
 
