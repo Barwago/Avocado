@@ -1,6 +1,6 @@
 # Digital Vinyl - RFID Spotify Integration
 
-Welcome to the world of Digital Vinyl, where the retro meets the futuristic! Get ready to groove and rock out to your favorite Spotify playlists with a touch of your RFID cards/tags. Say goodbye to flipping vinyl records and hello to a new way of enjoying music. Let's dive into the details and get the party started!
+Welcome to the world of Digital Vinyl, where the retro meets the futuristic! Get ready to groove and rock out to your favorite Spotify playlists with a touch of your RFID cards/tags. Say goodbye to flipping vinyl records and hello to a new way of enjoying music. Let's dive into the details.
 
 ## What is Digital Vinyl?
 
@@ -9,9 +9,12 @@ Digital Vinyl is a project that combines the nostalgia of vinyl records with the
 ## Requirements
 
 - Arduino Edition:
-  - Arduino board with RFID-RC522 module
+  - Arduino board with RFID-RC522 module (Uno, Mega, etc.)
   - Arduino IDE
   - MFRC522 library (install via Arduino Library Manager)
+  - serial library (`pip install serial`)
+  - spotipy library (`pip install spotipy`)
+  - webbrowser library (`pip install webbrowser`)
 
 - Raspberry Pi Edition:
   - Raspberry Pi board
@@ -23,15 +26,23 @@ Digital Vinyl is a project that combines the nostalgia of vinyl records with the
 
 ### Arduino Edition
 
-1. Connect your Arduino board with the RFID-RC522 module and unleash your inner DJ.
+1. Connect the RFID-RC522 module to your Arduino board using the provided wiring diagram. Double-check the connections to ensure they are correct.
 
-2. Install the MFRC522 library in your Arduino IDE and let the music flow.
+2. Install the necessary libraries in your Arduino IDE. The required library for this project is the MFRC522 library. You can install it via the Arduino Library Manager.
 
-3. Open the provided Arduino sketch (`rfid_spotify.ino`) in the Arduino IDE. Feel free to add your personal touch!
+3. Open the Arduino sketch provided (`Arduino_RFID.ino`) in the Arduino IDE.
 
-4. It's time to create magic! Customize the `uid_playlist_mapping` array in the sketch to associate your RFID card UIDs with the Spotify playlist URIs that make you move and groove.
+4. Connect your Arduino board to your computer via USB.
 
-5. Upload the sketch to your Arduino board and witness the transformation of your RFID cards into musical gateways.
+5. Upload the sketch to your Arduino board using the Arduino IDE. Wait for the upload process to complete.
+
+6. Now, the Arduino board is ready to read the UID of your RFID cards/tags and send it to your computer.
+
+7. Open the python script provided (`DigitalVinyl_Arduino.py`)
+
+8. Modify the code to customize your RFID card to playlist mappings. Look for the `uid_playlist_mapping` dictionary and update it with your desired mappings. Use the UID of each RFID card/tag as the key and the Spotify playlist URI as the value.
+
+9. Run the python script in the same serial port as the arduino code is running in. 
 
 ### Raspberry Pi Edition
 
