@@ -8,14 +8,6 @@ import time
 import threading
 import pygame
 
-# Generate QR code for a Spotify song
-def generate_qr_code(song_url):
-    qr = qrcode.QRCode(version=1, box_size=10, border=5)
-    qr.add_data(song_url)
-    qr.make(fit=True)
-    qr_img = qr.make_image(fill_color="black", back_color="white")
-    qr_img.save("static/song_qr_code.png")
-
 # Spotify credentials
 client_id = "42cf26a1f56c46348068db2173db1102"
 client_secret = "aa86f90810c94bc79139bc67449d6cad"
@@ -28,20 +20,17 @@ def open_spotify_url(url):
     except Exception as e:
         print("Error opening URL:", str(e))
 
-# Start playing the song using Spotipy
-def start_playing_song(device_id, track_id):
+# Start playing the playlist using Spotipy
+def start_playing_playlist(playlist_uri):
     try:
-        scope = "user-modify-playback-state"
+        scope = 'user-modify-playback-state'
         sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=client_id,
                                                        client_secret=client_secret,
                                                        redirect_uri=redirect_uri,
                                                        scope=scope))
-        sp.transfer_playback(device_id=device_id, force_play=True)
-        sp.start_playback(device_id=device_id, uris=[f"spotify:track:{track_id}"])
+        sp.start_playback(context_uri=playlist_uri)
     except Exception as e:
-        print("Error starting playback:", str(e))
-
-
+        print('Error starting playback:', str(e))
 # Extract the track ID from the Spotify song URL
 def extract_track_id(url):
     try:
@@ -84,25 +73,13 @@ def scan_qr_code():
                 decoded_info = qr.data.decode('utf-8')
                 # Check if the decoded information is a valid URL
                 if decoded_info.startswith("http"):
-                    song_url = decoded_info
-                    print("Scanned QR Code URL:", song_url)
-                    # Generate QR code for the song
-                    generate_qr_code(song_url)
-                    # Get the active device ID
-                    scope = "user-read-playback-state"
-                    sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=client_id,
-                                                                   client_secret=client_secret,
-                                                                   redirect_uri=redirect_uri,
-                                                                   scope=scope))
-                    devices = sp.devices()
-                    for device in devices['devices']:
-                        if device['is_active']:
-                            device_id = device['id']
-                            track_id = extract_track_id(song_url)
-                            start_playing_song(device_id, track_id)
+                    playlist_uri = decoded_info
+                    print("Scanned QR Code URL:", playlist_uri)
                     play_sound()
                     # Open the Spotify song URL and start playing the song
-                    open_spotify_url(song_url)
+                    open_spotify_url(playlist_uri)
+                    playlist_uri = extract_track_id(playlist_uri)
+                    start_playing_playlist(playlist_uri)
                     
                     last_scanned_time = time.time()  # Update the last scanned time
 
