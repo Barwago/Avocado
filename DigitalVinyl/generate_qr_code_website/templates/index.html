@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Spotify QR Code</title>
+</head>
+<body>
+    <h1>Generate Spotify QR Code</h1>
+    <h2><img src="{{ url_for('static', filename='img/cute_picture.jpg') }}" alt="Cute Picture"></h2>
+    <form action="{{ url_for('generate_qr_code') }}" method="POST">
+        <input type="text" name="song_url" placeholder="Enter Spotify Song URL">
+        <input type="submit" value="Generate QR Code">
+    </form>
+</body>
+</html>
