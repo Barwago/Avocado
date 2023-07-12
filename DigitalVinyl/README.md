@@ -30,16 +30,17 @@ Digital Vinyl is a project that combines the nostalgia of vinyl records with the
 
 1. Connect the RFID-RC522 module to your Arduino board using the provided wiring diagram. Double-check the connections to ensure they are correct.
 
-|     Arduino     |   RFID-RC522   |
-|-----------------|----------------|
-|     3.3V        |      3.3V      |
-|     GND         |      GND       |
-|     9           |      RST       |
-|     10          |   SDA (SS)     |
-|     11          |      MOSI      |
-|     12          |      MISO      |
-|     13          |      SCK       |
-
+        +---------------------+      +----------------------+
+        |       Arduino       |      |     RFID-RC522       |
+        |                     |      |                      |
+        |        3.3V    ------+-----> 3.3V                 |
+        |        GND     ------+-----> GND                  |
+        |        9       ------+-----> RST                  |
+        |        10      ------+-----> SDA (SS)             |
+        |        11      ------+-----> MOSI                 |
+        |        12      ------+-----> MISO                 |
+        |        13      ------+-----> SCK                  |
+        +---------------------+      +----------------------+
 
 2. Install the necessary libraries in your Arduino IDE. The required library for this project is the MFRC522 library. You can install it via the Arduino Library Manager.
 
