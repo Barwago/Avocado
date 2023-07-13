@@ -2,7 +2,7 @@ import webbrowser
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 from time import sleep
-from pi_rc522 import RFID
+from mfrc522 import SimpleMFRC522
 
 '''
 sudo apt update
@@ -13,8 +13,8 @@ sudo pip3 install spotipy
 
 
 Make python file executable:
-chmod +x rfid_spotify.py
-./rfid_spotify.py
+chmod +x DigitalVinyl.py
+./DigitalVinyl.py
 '''
 
 # Spotify credentials
@@ -40,49 +40,65 @@ def start_playing_playlist(playlist_uri):
         sp.start_playback(context_uri=playlist_uri)
     except Exception as e:
         print('Error starting playback:', str(e))
+# Function to skip to the next track
+def skip_track():
+    sp.next_track()
+    
+# Function to increase volume by 10%
+def volume_up():
+    current_volume = sp.current_playback()["device"]["volume_percent"]
+    new_volume = min(current_volume + 10, 100)  # Increase volume by 10%, capped at 100
+    sp.volume(new_volume)
 
-# Define the card UID to playlist URI mapping
+# Function to decrease volume by 10%
+def volume_down():
+    current_volume = sp.current_playback()["device"]["volume_percent"]
+    new_volume = max(current_volume - 10, 0)  # Decrease volume by 10%, capped at 0
+    sp.volume(new_volume)
+  
+# Define the card UID to playlist URI mapping  
 uid_playlist_mapping = {
-    'f73dd0b5': 'spotify:playlist:5SSifdafznIV2WlWRhtUlL',
-    'ed8de530': 'spotify:playlist:6I8dvOiPMKSoX2NDOs5vsO',
-    '24fc3eac': 'spotify:playlist:2UfCYMheuXqkA5NBUkWEwg',
-    '20056a1f': 'spotify:playlist:37i9dQZF1DXcBWIGoYBM5M',
-    '96be04e8': 'spotify:playlist:1OyVxImCy5jDspmOlwTWa6',
-    '049390baf06280': 'spotify:playlist:5clXhwPHeAv6NnCUpgpA6i'
+    '565151983455': 'spotify:playlist:5SSifdafznIV2WlWRhtUlL',
+    '702624753505': 'spotify:playlist:6I8dvOiPMKSoX2NDOs5vsO',
+    '1047304529914': 'spotify:playlist:2UfCYMheuXqkA5NBUkWEwg',
+    '154253453078': 'spotify:playlist:37i9dQZF1DXcBWIGoYBM5M',
+    '1061894010287': 'spotify:playlist:1OyVxImCy5jDspmOlwTWa6',
+    '85367973703': 'spotify:playlist:5clXhwPHeAv6NnCUpgpA6i'
 }  # Modify with desired UID-to-playlist mappings
 
 # Create an instance of the RFID class
-rfid = RFID()
 
+reader = SimpleMFRC522()
 try:
     while True:
-        # Wait for a card to be detected
-        rfid.wait_for_tag()
+        id = reader.read()[0]
+        card_uid = str(id)
+        print("The ID for this card is:", card_uid)
 
-        # Request the UID of the detected card
-        (error, tag_type) = rfid.request()
+        # Check if the card UID exists in the mapping
+        if card_uid in uid_playlist_mapping:
+            playlist_uri = uid_playlist_mapping[card_uid]
+            print('Playing playlist:', playlist_uri)
+            # Open the Spotify playlist URL and start playing the playlist
+            open_spotify_url(playlist_uri)
+            start_playing_playlist(playlist_uri)
+        
+        # Check for volume up card
+        if card_uid == '158850788426':
+            volume_up()
 
-        if not error:
-            # Get the UID of the card
-            (error, uid) = rfid.anticoll()
+        # Check for volume down card
+        if card_uid == '647433087172':
+            volume_down()
 
-            if not error:
-                # Convert the UID to a string
-                card_uid = ''.join([str(i) for i in uid])
-
-                print('Card UID:', card_uid)
-
-                # Check if the card UID exists in the mapping
-                if card_uid in uid_playlist_mapping:
-                    playlist_uri = uid_playlist_mapping[card_uid]
-                    print('Playing playlist:', playlist_uri)
-                    # Open the Spotify playlist URL and start playing the playlist
-                    open_spotify_url(playlist_uri)
-                    start_playing_playlist(playlist_uri)
+        # Check for skip card
+        if card_uid == '1020287856821':
+            skip_track()
 
         # Delay before detecting the next card
         sleep(0.1)
-
+        
 except KeyboardInterrupt:
-    # Clean up the RFID module
-    rfid.cleanup()
+    print("Keyboard interrupt detected. Exiting...")
+finally:
+    GPIO.cleanup()
