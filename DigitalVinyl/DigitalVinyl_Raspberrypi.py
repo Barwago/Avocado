@@ -40,22 +40,7 @@ def start_playing_playlist(playlist_uri):
         sp.start_playback(context_uri=playlist_uri)
     except Exception as e:
         print('Error starting playback:', str(e))
-# Function to skip to the next track
-def skip_track():
-    sp.next_track()
-    
-# Function to increase volume by 10%
-def volume_up():
-    current_volume = sp.current_playback()["device"]["volume_percent"]
-    new_volume = min(current_volume + 10, 100)  # Increase volume by 10%, capped at 100
-    sp.volume(new_volume)
 
-# Function to decrease volume by 10%
-def volume_down():
-    current_volume = sp.current_playback()["device"]["volume_percent"]
-    new_volume = max(current_volume - 10, 0)  # Decrease volume by 10%, capped at 0
-    sp.volume(new_volume)
-  
 # Define the card UID to playlist URI mapping  
 uid_playlist_mapping = {
     '565151983455': 'spotify:playlist:5SSifdafznIV2WlWRhtUlL',
@@ -83,18 +68,6 @@ try:
             open_spotify_url(playlist_uri)
             start_playing_playlist(playlist_uri)
         
-        # Check for volume up card
-        if card_uid == '158850788426':
-            volume_up()
-
-        # Check for volume down card
-        if card_uid == '647433087172':
-            volume_down()
-
-        # Check for skip card
-        if card_uid == '1020287856821':
-            skip_track()
-
         # Delay before detecting the next card
         sleep(0.1)
         
